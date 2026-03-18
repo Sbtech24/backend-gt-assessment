@@ -27,7 +27,7 @@ This API allows users to create, assign, update, and manage tasks with assigner/
 - PostgreSQL
 - TypeORM
 - ts-node-dev for development
-- Optional: Redis for caching (future improvement)
+
 
 ---
 
@@ -61,10 +61,22 @@ npm run dev
 
 ## Examples of API requests in postman 
 
-
+#### Get all tasks 
 ![alt text](<Screenshot 2026-03-18 124200.png>) 
+
+#### Create tasks
 ![alt text](<Screenshot 2026-03-18 124544.png>) 
-![alt text](<Screenshot 2026-03-18 124724.png>) 
+
+#### Update tasks
 ![alt text](<Screenshot 2026-03-18 124909.png>)
+
+#### Delete tasks
+
 ![alt text](<Screenshot 2026-03-18 124945.png>)
+
+### SOME ERROR RESPONSES 
+
 ![alt text](<Screenshot 2026-03-18 125047.png>)
+
+
+![alt text](<Screenshot 2026-03-18 124724.png>) 
