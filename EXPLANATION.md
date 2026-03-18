@@ -1,7 +1,7 @@
 ## Explanations
 
 # Implmentation Approach 
- -   Define the Task entity with fields (id, title, priority, status, assignedTo, assignedBy, createdAt) and allowed statuses/priorities.
+ - Define the Task entity with fields (id, title, priority, status, assignedTo, assignedBy, createdAt) and allowed statuses/priorities.
  - Identify business rules: assigner vs assignee permissions.
 
  - Decide on backend stack: Node.js + TypeScript + Express + TypeORM with PostgreSQL.
@@ -38,7 +38,7 @@ No pagination or advanced filtering was required for GET /tasks (though it could
 Tasks can be unassigned (assignedTo set to null) but not reassigned directly in this version
 
 # What I would improve if given more time 
--I would improve the following:
+I would improve the following:
 
 Authentication & Authorization: Use JWT or OAuth instead of a simple header.
 
