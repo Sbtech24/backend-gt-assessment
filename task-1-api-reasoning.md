@@ -42,7 +42,7 @@ FIVE POSSIBLE ERRORS INCLUDE
 
 What HTTP status codes should be returned for the following scenarios?
 
-- Successful order creation  - **201** should be returned on successful creation of a new order. 201 Indicates that a new resource has been successfully created and it usually accompanies the post Request. e
+- Successful order creation  - **201** should be returned on successful creation of a new order. 201 Indicates that a new resource has been successfully created and it usually accompanies the post Request.
 
 - Invalid request body - **400** which means bad request should be returned. When the frontend sends an incomplete request body or an invalid request, the appropriate status code returned should be the 400 status code signifying that the request is invalid and should be rechecked for missing values or errors 
 
