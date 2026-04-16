@@ -9,13 +9,13 @@ export const createTask = async (
   title: string,
   priority: TaskPriority,
   assignedToId: number,
-  assignedById: number
+  userId: number
 ) => {
   const assignedTo = await userRepo().findOneBy({ id: assignedToId });
-  const assignedBy = await userRepo().findOneBy({ id: assignedById });
+  const assignedBy = await userRepo().findOneBy({ id: userId });
 
   if (!assignedTo) throw new Error("Assignee not found");
-  if (!assignedBy) throw new Error("Assigner not found");
+  if (!assignedBy) throw new Error("User not found");
 
   const task = taskRepo().create({
     title,
@@ -27,18 +27,26 @@ export const createTask = async (
 
   return taskRepo().save(task);
 };
-
-export const getTasks = async (filters?: { assignedTo?: number; status?: TaskStatus }) => {
+export const getTasks = async (
+  userId: number,
+  filters?: { status?: TaskStatus }
+) => {
   const query = taskRepo().createQueryBuilder("task");
 
-  if (filters?.assignedTo) query.andWhere("task.assignedToId = :assignedTo", { assignedTo: filters.assignedTo });
-  if (filters?.status) query.andWhere("task.status = :status", { status: filters.status });
+  query.where(
+    "(task.assignedToId = :userId OR task.assignedById = :userId)",
+    { userId }
+  );
 
-  return query.leftJoinAndSelect("task.assignedTo", "assignedTo")
-              .leftJoinAndSelect("task.assignedBy", "assignedBy")
-              .getMany();
+  if (filters?.status) {
+    query.andWhere("task.status = :status", { status: filters.status });
+  }
+
+  return query
+    .leftJoinAndSelect("task.assignedTo", "assignedTo")
+    .leftJoinAndSelect("task.assignedBy", "assignedBy")
+    .getMany();
 };
-
 
 export const ensureIsAssigner = (userId: number, task: Task) => {
   if (task.assignedBy.id !== userId) throw new Error("Forbidden: Not the assigner");
@@ -50,7 +58,6 @@ export const ensureIsAssignee = (userId: number, task: Task) => {
     throw new Error("Forbidden: Not the assignee");
 };
 
-// UPDATE TASK DETAILS (assigner only)
 export const updateTask = async (taskId: number, userId: number, updates: Partial<{ title: string; priority: TaskPriority }>) => {
   const task = await taskRepo().findOne({ where: { id: taskId }, relations: ["assignedBy", "assignedTo"] });
   if (!task) throw new Error("Task not found");
